@@ -2,6 +2,7 @@ class TimeCalculator {
   calculate(expr) {
     let seconds = [];
     let minutes = [];
+    let hours = [];
     if (/\+/.exec(expr)) {
       let operands = expr.split('+');
       operands = operands.map((operand) => operand.trim());
@@ -25,10 +26,19 @@ class TimeCalculator {
       }
 
       let accMinute = minutes.length ? minutes.reduce((acc, v) => acc + v) : 0;
+      if (accMinute >= 60) {
+        hours.push(Math.floor(accMinute / 60));
+        accMinute = accMinute % 60;
+      }
 
       let strSecond = accSecond > 9 ? accSecond : `0${accSecond}`;
       let strMinute = `${accMinute}`;
-      return `${strMinute}:${strSecond}`;
+      let strHour = `${hours[0]}`;
+      let formattedResult = `${strMinute}:${strSecond}`;
+      if (hours.length) {
+        formattedResult = accMinute > 9 ? `${hours[0]}:${formattedResult}` : `${hours[0]}:0${formattedResult}`;
+      }
+      return formattedResult;
     }
     return expr;
   }

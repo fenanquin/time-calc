@@ -42,4 +42,13 @@ describe('TimeCalculator', () => {
     assert.equal('10:00', calc.calculate('9:00 + 1:00'));
   });
 
+  it('should 1:00 + 2:00 + 3:00 be equal to 6:00', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('6:00', calc.calculate('1:00 + 2:00 + 3:00'));
+  });
+
+  it('should 59:00 + 1:00 be equal to 1:00:00', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('1:00:00', calc.calculate('59:00 + 1:00'));
+  });
 });
