@@ -51,4 +51,9 @@ describe('TimeCalculator', () => {
     let calc = new TimeCalculator(':');
     assert.equal('1:00:00', calc.calculate('59:00 + 1:00'));
   });
+
+  it('should 1:00:00 + 2:00:00 be equal to 3:00:00', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('3:00:00', calc.calculate('1:00:00 + 2:00:00'));
+  });
 });
