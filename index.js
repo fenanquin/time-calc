@@ -1,9 +1,11 @@
+const Time = require('./time');
+
 class TimeCalculator {
   calculate(strExpr) {
     try {
       let expr = this.parseExpression(strExpr);
       let result = this.processExpression(expr);
-      return this.formatResult(result);
+      return Time.format(result);
     } catch (e) {
       console.log(e);
     }
@@ -16,10 +18,10 @@ class TimeCalculator {
       let operands = strExpr.split('+');
       operands = operands.map((operand) => operand.trim());
       operands.forEach((operand) => {
-        times.push(this.parseTime(operand));
+        times.push(new Time(operand));
       });
     } else {
-      times.push(this.parseTime(strExpr));
+      times.push(new Time(strExpr));
     }
 
     return times;
@@ -27,33 +29,9 @@ class TimeCalculator {
 
   processExpression(times) {
     return times.length ?
-      times.map((time) => time.hour*60*60 + time.minute*60 + time.second).
+      times.map((time) => time.reduce()).
         reduce((acc, v) => acc + v) :
       0;
-  }
-
-  formatResult(result) {
-    let hour = Math.floor(result / (60*60));
-    let minute = Math.floor((result - hour*60*60) / 60);
-    let second = result - hour*60*60 - minute*60;
-
-    let strSecond = second > 9 ? second : `0${second}`;
-    let strMinute = `${minute}`;
-    let strHour = `${hour}`;
-
-    let formattedResult = `${strMinute}:${strSecond}`;
-    if (hour > 0) {
-      formattedResult = result.minute > 9 ? `${strHour}:${formattedResult}` : `${strHour}:0${formattedResult}`;
-    }
-
-    return formattedResult;
-  }
-
-  parseTime(input) {
-    let parts = input.split(':').reverse().map((part) => parseInt(part));
-    let [second, minute, hour = 0] = parts;
-
-    return { second, minute, hour};
   }
 }
 
