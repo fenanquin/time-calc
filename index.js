@@ -10,58 +10,39 @@ class TimeCalculator {
   }
 
   parseExpression(strExpr) {
-    let seconds = [];
-    let minutes = [];
-    let hours = [];
+    let times = [];
 
     if (/\+/.exec(strExpr)) {
       let operands = strExpr.split('+');
       operands = operands.map((operand) => operand.trim());
       operands.forEach((operand) => {
-        let time = this.parseTime(operand);
-        seconds.push(time.second);
-        minutes.push(time.minute);
-        hours.push(time.hour);
+        times.push(this.parseTime(operand));
       });
     } else {
-      let time = this.parseTime(strExpr);
-      seconds.push(time.second);
-      minutes.push(time.minute);
-      hours.push(time.hour);
+      times.push(this.parseTime(strExpr));
     }
 
-    return {seconds, minutes, hours};
+    return times;
   }
 
-  processExpression(expr) {
-    let result = {};
-    let accSecond = expr.seconds.length ? expr.seconds.reduce((acc, v) => acc + v) : 0;
-    if (accSecond >= 60) {
-      expr.minutes.push(Math.floor(accSecond / 60));
-      accSecond = accSecond % 60;
-    }
-
-    let accMinute = expr.minutes.length ? expr.minutes.reduce((acc, v) => acc + v) : 0;
-    if (accMinute >= 60) {
-      expr.hours.push(Math.floor(accMinute / 60));
-      accMinute = accMinute % 60;
-    }
-
-    let accHour = expr.hours.length ? expr.hours.reduce((acc, v) => acc + v) : 0;
-
-    return {
-      hour: accHour,
-      minute: accMinute,
-      second: accSecond
-    };
+  processExpression(times) {
+    return times.length ?
+      times.map((time) => time.hour*60*60 + time.minute*60 + time.second).
+        reduce((acc, v) => acc + v) :
+      0;
   }
 
   formatResult(result) {
-    let strSecond = result.second > 9 ? result.second : `0${result.second}`;
-    let strMinute = `${result.minute}`;
-    let strHour = `${result.hour}`;
+    let hour = Math.floor(result / (60*60));
+    let minute = Math.floor((result - hour*60*60) / 60);
+    let second = result - hour*60*60 - minute*60;
+
+    let strSecond = second > 9 ? second : `0${second}`;
+    let strMinute = `${minute}`;
+    let strHour = `${hour}`;
+
     let formattedResult = `${strMinute}:${strSecond}`;
-    if (result.hour > 0) {
+    if (hour > 0) {
       formattedResult = result.minute > 9 ? `${strHour}:${formattedResult}` : `${strHour}:0${formattedResult}`;
     }
 
@@ -69,21 +50,10 @@ class TimeCalculator {
   }
 
   parseTime(input) {
-    let parts = input.split(':');
-    let second = 0;
-    let minute = 0;
-    let hour = 0;
+    let parts = input.split(':').reverse().map((part) => parseInt(part));
+    let [second, minute, hour = 0] = parts;
 
-    if (parts.length === 3) {
-      second = parseInt(parts[2]);
-      minute = parseInt(parts[1]);
-      hour = parseInt(parts[0]);
-    } else {
-      second = parseInt(parts[1]);
-      minute = parseInt(parts[0]);
-    }
-
-    return {second, minute, hour};
+    return { second, minute, hour};
   }
 }
 
