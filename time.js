@@ -1,3 +1,6 @@
+const hourInSeconds = 60 * 60;
+const minuteInSeconds = 60;
+
 class Time {
   constructor(input) {
     let parts = input.split(':').reverse().map((part) => parseInt(part));
@@ -8,13 +11,13 @@ class Time {
   }
 
   reduce() {
-    return this.hour*60*60 + this.minute*60 + this.second;
+    return this.hour * hourInSeconds + this.minute * minuteInSeconds + this.second;
   }
 
   static format(input) {
-    let hour = Math.floor(input / (60*60));
-    let minute = Math.floor((input - hour*60*60) / 60);
-    let second = input - hour*60*60 - minute*60;
+    let hour = Math.floor(input / hourInSeconds);
+    let minute = Math.floor((input - hour * hourInSeconds) / minuteInSeconds);
+    let second = input - hour * hourInSeconds - minute * minuteInSeconds;
 
     let strSecond = second > 9 ? second : `0${second}`;
     let strMinute = `${minute}`;
@@ -22,7 +25,7 @@ class Time {
 
     let formattedResult = `${strMinute}:${strSecond}`;
     if (hour > 0) {
-      formattedResult = input.minute > 9 ? `${strHour}:${formattedResult}` : `${strHour}:0${formattedResult}`;
+      formattedResult = minute > 9 ? `${strHour}:${formattedResult}` : `${strHour}:0${formattedResult}`;
     }
 
     return formattedResult;
