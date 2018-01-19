@@ -7,6 +7,11 @@ describe('TimeCalculator', () => {
     assert.equal('0:01', calc.calculate('0:01'));
   });
 
+  it('should convert 1:00:00 to 1:00:00', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('1:00:00', calc.calculate('1:00:00'));
+  });
+
   it('should 0:01 + 0:02 be equal to 0:03', () => {
     let calc = new TimeCalculator(':');
     assert.equal('0:03', calc.calculate('0:01 + 0:02'));
@@ -55,5 +60,10 @@ describe('TimeCalculator', () => {
   it('should 1:00:00 + 2:00:00 be equal to 3:00:00', () => {
     let calc = new TimeCalculator(':');
     assert.equal('3:00:00', calc.calculate('1:00:00 + 2:00:00'));
+  });
+
+  it('should 1:10:00 + 2:20:00 be equal to 3:00:00', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('3:30:00', calc.calculate('1:10:00 + 2:20:00'));
   });
 });
