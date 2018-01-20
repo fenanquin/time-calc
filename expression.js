@@ -9,6 +9,25 @@ class Expression {
   static build(strExpr) {
     let times = [];
 
+    let texpr = strExpr.trim();
+    let matched, firstOperand, operator, secondOperand
+    if (matched = texpr.match(/^(\d{1,2}:)?\d{1,2}:\d{2}/)) {
+      firstOperand = matched[0];
+      texpr = texpr.slice(firstOperand.length + matched.index);
+    }
+
+    texpr = texpr.trim();
+    if (matched = texpr.match(/^[\+]/)) {
+      operator = matched[0];
+      texpr = texpr.slice(operator.length + matched.index);
+    }
+
+    texpr = texpr.trim();
+    if (matched = texpr.match(/^(\d{1,2}:)?\d{1,2}:\d{2}/)) {
+      secondOperand = matched[0];
+      texpr = texpr.slice(secondOperand.length + matched.index);
+    }
+
     if (/\+/.exec(strExpr)) {
       let operands = strExpr.split('+');
       operands = operands.map((operand) => operand.trim());
