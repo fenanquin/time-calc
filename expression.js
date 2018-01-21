@@ -1,50 +1,36 @@
 const Time = require('./time');
 
 class Expression {
-  constructor(firstOperand, secondOperand, operator) {
-    this.firstOperand = firstOperand;
-    this.secondOperand = secondOperand;
-    this.operator = operator;
+  constructor() {
+    this.operands = [];
+    this.operator;
   }
   static build(strExpr) {
-    let times = [];
+    let rootExpr = new Expression();
+    let matched, expr = rootExpr;
+    strExpr = strExpr.trim();
+    while (strExpr) {
+      if (matched = strExpr.match(/^(\d{1,2}:)?\d{1,2}:\d{2}/)) {
+        if (expr.operands.length < 2) {
+          expr.operands.push(new Time(matched[0]));
+        }
+      } else if (matched = strExpr.match(/^[\+]/)) {
+        if (!expr.operator) {
+          expr.operator = matched[0];
+        } else {
+          expr = new Expression();
+          expr.operands.push(rootExpr.operands.pop());
+          rootExpr.operands.push(expr);
+        }
+      }
 
-    let texpr = strExpr.trim();
-    let matched, firstOperand, operator, secondOperand
-    if (matched = texpr.match(/^(\d{1,2}:)?\d{1,2}:\d{2}/)) {
-      firstOperand = matched[0];
-      texpr = texpr.slice(firstOperand.length + matched.index);
+      strExpr = strExpr.slice(matched[0].length + matched.index).trim();
     }
 
-    texpr = texpr.trim();
-    if (matched = texpr.match(/^[\+]/)) {
-      operator = matched[0];
-      texpr = texpr.slice(operator.length + matched.index);
-    }
-
-    texpr = texpr.trim();
-    if (matched = texpr.match(/^(\d{1,2}:)?\d{1,2}:\d{2}/)) {
-      secondOperand = matched[0];
-      texpr = texpr.slice(secondOperand.length + matched.index);
-    }
-
-    if (/\+/.exec(strExpr)) {
-      let operands = strExpr.split('+');
-      operands = operands.map((operand) => operand.trim());
-      operands.forEach((operand) => {
-        times.push(new Time(operand));
-      });
-    } else {
-      times.push(new Time(strExpr));
-    }
-
-    return times;
+    return rootExpr.operands.length > 1 ? rootExpr : rootExpr.operands[0];
   }
-  static reduce(times) {
-    return times.length ?
-      times.map((time) => time.reduce()).
-        reduce((acc, v) => acc + v) :
-      0;
+  reduce() {
+    return this.operands[0].reduce() + this.operands[1].reduce();
   }
 }
 

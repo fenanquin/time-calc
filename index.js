@@ -5,7 +5,7 @@ class TimeCalculator {
   calculate(strExpr) {
     try {
       let expr = Expression.build(strExpr);
-      let result = Expression.reduce(expr);
+      let result = expr.reduce();
       return Time.format(result);
     } catch (e) {
       console.log(e);
