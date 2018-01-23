@@ -17,8 +17,8 @@ class Expression {
       } else if (matched = strExpr.match(/^[\+\-]/)) {
         if (expr.operator) {
           expr = new Expression();
-          expr.operands.push(rootExpr.operands.pop());
-          rootExpr.operands.push(expr);
+          expr.operands.push(rootExpr);
+          rootExpr = expr;
         }
 
         expr.operator = matched[0];
