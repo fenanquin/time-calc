@@ -14,14 +14,14 @@ class Expression {
         if (expr.operands.length < 2) {
           expr.operands.push(new Time(matched[0]));
         }
-      } else if (matched = strExpr.match(/^[\+]/)) {
-        if (!expr.operator) {
-          expr.operator = matched[0];
-        } else {
+      } else if (matched = strExpr.match(/^[\+\-]/)) {
+        if (expr.operator) {
           expr = new Expression();
           expr.operands.push(rootExpr.operands.pop());
           rootExpr.operands.push(expr);
         }
+
+        expr.operator = matched[0];
       }
 
       strExpr = strExpr.slice(matched[0].length + matched.index).trim();
@@ -30,7 +30,13 @@ class Expression {
     return rootExpr.operands.length > 1 ? rootExpr : rootExpr.operands[0];
   }
   reduce() {
-    return this.operands[0].reduce() + this.operands[1].reduce();
+    if (this.operator === '+') {
+      return this.operands[0].reduce() + this.operands[1].reduce();
+    } else if (this.operator === '-') {
+      return this.operands[0].reduce() - this.operands[1].reduce();
+    } else {
+      throw new Error(this);
+    }
   }
 }
 

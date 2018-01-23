@@ -15,10 +15,25 @@ class Time {
   }
 
   static format(input) {
-    let hour = Math.floor(input / hourInSeconds);
-    let minute = Math.floor((input - hour * hourInSeconds) / minuteInSeconds);
+    let hour = input > 0 ? Math.floor(input / hourInSeconds) : -Math.floor((-input) / hourInSeconds);
+    let minute = input > 0 ? Math.floor((input - hour * hourInSeconds) / minuteInSeconds) : - Math.floor((-input + hour * hourInSeconds) / minuteInSeconds);
     let second = input - hour * hourInSeconds - minute * minuteInSeconds;
 
+    let sign = '';
+    if (second < 0) {
+      sign = '-';
+      second = -second;
+    }
+
+    if (minute < 0) {
+      sign = '-';
+      minute = -minute;
+    }
+
+    if (hour < 0) {
+      sign = '-';
+      hour = - hour;
+    }
     let strSecond = second > 9 ? second : `0${second}`;
     let strMinute = `${minute}`;
     let strHour = `${hour}`;
@@ -28,7 +43,7 @@ class Time {
       formattedResult = minute > 9 ? `${strHour}:${formattedResult}` : `${strHour}:0${formattedResult}`;
     }
 
-    return formattedResult;
+    return sign + formattedResult;
   }
 }
 

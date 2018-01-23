@@ -66,4 +66,44 @@ describe('TimeCalculator', () => {
     let calc = new TimeCalculator(':');
     assert.equal('3:30:00', calc.calculate('1:10:00 + 2:20:00'));
   });
+
+  it('should 0:02 - 0:01 be equal to 0:01', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('0:01', calc.calculate('0:02 - 0:01'));
+  });
+
+  it('should 0:01 - 0:02 be equal to -0:01', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('-0:01', calc.calculate('0:01 - 0:02'));
+  });
+
+  it('should 0:01 - 0:11 be equal to -0:10', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('-0:10', calc.calculate('0:01 - 0:11'));
+  });
+
+  it('should 2:00 - 1:00 be equal to 1:00', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('1:00', calc.calculate('2:00 - 1:00'));
+  });
+
+  it('should 1:00 - 2:00 be equal to -1:00', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('-1:00', calc.calculate('1:00 - 2:00'));
+  });
+
+  it('should 2:00:00 - 1:00:00 be equal to 1:00:00', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('1:00:00', calc.calculate('2:00:00 - 1:00:00'));
+  });
+
+  it('should 1:00:00 - 2:00:00 be equal to -1:00:00', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('-1:00:00', calc.calculate('1:00:00 - 2:00:00'));
+  });
+
+  it('should 1:10:00 - 2:00:00 be equal to -50:00', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('-50:00', calc.calculate('1:10:00 - 2:00:00'));
+  });
 });
