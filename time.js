@@ -3,7 +3,7 @@ const minuteInSeconds = 60;
 
 class Time {
   constructor(input) {
-    let parts = input.split(':').reverse().map((part) => parseInt(part));
+    let parts = input.split(':').reverse().map((part) => parseFloat(part));
     let [second, minute = 0, hour = 0] = parts;
     this.second = second;
     this.minute = minute;

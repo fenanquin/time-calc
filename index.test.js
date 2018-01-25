@@ -128,6 +128,21 @@ describe('TimeCalculator', () => {
     assert.equal('6:00', calc.calculate('2 * 3:00'));
   });
 
+  it('should 1 * 2:00 be equal to 2:00', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('2:00', calc.calculate('1 * 2:00'));
+  });
+
+  it('should 2 * 1:30:00 be equal to 3:00:00', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('3:00:00', calc.calculate('2 * 1:30:00'));
+  });
+
+  it('should 2.5 * 1:00:00 be equal to 2:30:00', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('2:30:00', calc.calculate('2.5 * 1:00:00'));
+  });
+
   it('should 1:00 / 2 be equal to 0:30', () => {
     let calc = new TimeCalculator(':');
     assert.equal('0:30', calc.calculate('1:00 / 2'));

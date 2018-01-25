@@ -15,7 +15,7 @@ class Expression {
     let matched, expr = rootExpr;
     strExpr = strExpr.trim();
     while (strExpr) {
-      if (matched = (strExpr.match(/^(\d{1,2}:)?\d{1,2}:\d{2}/) || strExpr.match(/^\d/) )) {
+      if (matched = (strExpr.match(/^(\d{1,2}:)?\d{1,2}:\d{2}/) || strExpr.match(/^\d+\.{0,1}\d*/) )) {
         if (expr.operands.length < 2) {
           expr.operands.push(new Time(matched[0]));
         }
