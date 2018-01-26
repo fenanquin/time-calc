@@ -143,6 +143,21 @@ describe('TimeCalculator', () => {
     assert.equal('2:30:00', calc.calculate('2.5 * 1:00:00'));
   });
 
+  it('should 1.5 * 1:00 be equal to 1:30', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('1:30', calc.calculate('1.5 * 1:00'));
+  });
+
+  it('should 2 * 0:30 be equal to 1:00', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('1:00', calc.calculate('2 * 0:30'));
+  });
+
+  it('should 0:01 * 10 be equal to 0:10', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('0:10', calc.calculate('10 * 0:01'));
+  });
+
   it('should 1:00 / 2 be equal to 0:30', () => {
     let calc = new TimeCalculator(':');
     assert.equal('0:30', calc.calculate('1:00 / 2'));
