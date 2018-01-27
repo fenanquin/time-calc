@@ -162,4 +162,19 @@ describe('TimeCalculator', () => {
     let calc = new TimeCalculator(':');
     assert.equal('0:30', calc.calculate('1:00 / 2'));
   });
+
+  it('should 1:00:00 / 2 be equal to 30:00', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('30:00', calc.calculate('1:00:00 / 2'));
+  });
+
+  it('should 1:00:00 / 0.5 be equal to 2:00:00', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('2:00:00', calc.calculate('1:00:00 / 0.5'));
+  });
+
+  it('should 1:00 / 0.5 be equal to 2:00', () => {
+    let calc = new TimeCalculator(':');
+    assert.equal('2:00', calc.calculate('1:00 / 0.5'));
+  });
 });
