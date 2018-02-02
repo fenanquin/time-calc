@@ -146,4 +146,12 @@ describe('TimeCalculator', () => {
   it('should 1:00 / 0.5 be equal to 2:00', () => {
     assert.equal('2:00', calc.calculate('1:00 / 0.5'));
   });
+
+  it('should 3:00 / 0.75 be equal to 4:00', () => {
+    assert.equal('4:00', calc.calculate('3:00 / 0.75'));
+  });
+
+  it('should 1:00 / 0.125 be equal to 8:00', () => {
+    assert.equal('8:00', calc.calculate('1:00 / 0.125'));
+  });
 });
